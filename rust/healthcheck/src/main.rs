@@ -9,16 +9,20 @@ async fn greet() -> impl Responder {
 #[get("/health/readiness")]
 async fn readiness() -> impl Responder {
     match fs::metadata("/tmp/ready").await {
-        Ok(_) => HttpResponse::Ok().finish(),
-        Err(_) => HttpResponse::InternalServerError().finish(),
+        // Ok(_) => HttpResponse::Ok().finish(),
+        Ok(_) => HttpResponse::Ok().body("200 OK, it's ready!"),
+        // Err(_) => HttpResponse::InternalServerError().finish(),
+        Err(_) => HttpResponse::InternalServerError().body("503 service unavailable, it's not ready!")
     }
 }
 
 #[get("/health/liveness")]
 async fn liveness() -> impl Responder {
     match fs::metadata("/tmp/ready").await {
-        Ok(_) => HttpResponse::Ok().finish(),
-        Err(_) => HttpResponse::InternalServerError().finish(),
+        // Ok(_) => HttpResponse::Ok().finish(),
+        Ok(_) => HttpResponse::Ok().body("200 OK, it's ready!"),
+        // Err(_) => HttpResponse::InternalServerError().finish(),
+        Err(_) => HttpResponse::InternalServerError().body("503 service unavailable, it's not ready!")
     }
 }
 
