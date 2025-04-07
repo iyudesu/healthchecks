@@ -17,9 +17,11 @@ func greetHandler(w http.ResponseWriter, r *http.Request) {
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := os.Stat("/tmp/ready"); err == nil {
-		w.WriteHeader(http.StatusOK)
+		// w.WriteHeader(http.StatusOK)
+		w.Write([]byte("200 OK, it's ready!"))
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
+		// w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("503 service unavailable, it's not ready!"))
 	}
 }
 
