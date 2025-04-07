@@ -8,23 +8,27 @@ app.get('/', (req, res) => {
   res.send('Hello, this is code from Node.js!');
 });
 
-function fileExists(filePath) {
+function isFileExists(filePath) {
   return fs.existsSync(filePath);
 }
 
 app.get('/health/readiness', (req, res) => {
-  if (fileExists('/tmp/ready')) {
-    res.sendStatus(200);
+  if (isFileExists('/tmp/ready')) {
+    // res.sendStatus(200);
+    res.send('200 OK, it\'s ready!');
   } else {
-    res.sendStatus(500);
+    // res.sendStatus(500);
+    res.send('503 service unavailable, it\'s not ready!');
   }
 });
 
 app.get('/health/liveness', (req, res) => {
-  if (fileExists('/tmp/ready')) {
-    res.sendStatus(200);
+  if (isFileExists('/tmp/ready')) {
+    // res.sendStatus(200);
+    res.send('200 OK, it lives!');
   } else {
-    res.sendStatus(500);
+    // res.sendStatus(500);
+    res.send('503 service unavailable, it doesn\'t live!');
   }
 });
 
