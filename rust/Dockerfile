@@ -14,15 +14,19 @@ COPY ./healthcheck .
 RUN cargo build --release
 
 # Second stage for a smaller image
-FROM alpine:3.21.3
+FROM public.ecr.aws/docker/library/alpine:3.21.3
 
 # Set the working directory
 WORKDIR /app
 
+# Install libraries
 RUN apk update && apk add openssl ca-certificates
 
 # Copy the built binary from the builder stage, binary name check when test build on local
 COPY --from=builder /app/target/release/healthcheck .
+
+# Create directory
+RUN mkdir /tmp/ready
 
 # Expose port
 EXPOSE 8080
