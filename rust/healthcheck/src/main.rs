@@ -3,26 +3,32 @@ use tokio::fs;
 
 #[get("/")]
 async fn greet() -> impl Responder {
-    HttpResponse::Ok().body("Hello this is code from Rust!")
+    HttpResponse::Ok()
+        .content_type("application/json")
+        .body("Hello this is code from Rust!")
 }
 
 #[get("/health/readiness")]
 async fn readiness() -> impl Responder {
     match fs::metadata("/tmp/ready").await {
-        // Ok(_) => HttpResponse::Ok().finish(),
-        Ok(_) => HttpResponse::Ok().body("200 OK, it's ready!"),
-        // Err(_) => HttpResponse::InternalServerError().finish(),
-        Err(_) => HttpResponse::InternalServerError().body("503 service unavailable, it's not ready!")
+        Ok(_) => HttpResponse::Ok()
+            .content_type("application/json")
+            .body("200 OK, it's ready!"),
+        Err(_) => HttpResponse::ServiceUnavailable()
+            .content_type("application/json")
+            .body("503 Service unavailable, it's not ready!")
     }
 }
 
 #[get("/health/liveness")]
 async fn liveness() -> impl Responder {
     match fs::metadata("/tmp/ready").await {
-        // Ok(_) => HttpResponse::Ok().finish(),
-        Ok(_) => HttpResponse::Ok().body("200 OK, it's ready!"),
-        // Err(_) => HttpResponse::InternalServerError().finish(),
-        Err(_) => HttpResponse::InternalServerError().body("503 service unavailable, it's not ready!")
+        Ok(_) => HttpResponse::Ok()
+            .content_type("application/json")
+            .body("200 OK, it lives!"),
+        Err(_) => HttpResponse::ServiceUnavailable()
+            .content_type("application/json")
+            .body("503 service unavailable, it doesn't live!")
     }
 }
 
