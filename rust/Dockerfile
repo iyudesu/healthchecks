@@ -31,5 +31,5 @@ RUN mkdir /tmp/ready
 # Expose port
 EXPOSE 8080
 
-# Command to run the application
-CMD ["./healthcheck"]
+# Set the entrypoint to the Rust app
+ENTRYPOINT ["./healthcheck"]
