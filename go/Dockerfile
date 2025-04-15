@@ -3,10 +3,6 @@ FROM public.ecr.aws/docker/library/golang:1.24.2-alpine3.21 AS builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum and download dependencies
-# COPY go.mod go.sum ./
-# RUN go mod download
-
 # Copy the rest of the application code
 COPY . ./
 

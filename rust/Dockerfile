@@ -5,7 +5,7 @@ FROM public.ecr.aws/docker/library/rust:1.86-alpine3.20 AS builder
 WORKDIR /app
 
 # Install libraries
-RUN apk add pkgconfig openssl-dev libc-dev
+RUN apk add libc-dev 
 
 # Copy the entire project
 COPY ./healthcheck .
@@ -19,8 +19,8 @@ FROM public.ecr.aws/docker/library/alpine:3.21.3
 # Set the working directory
 WORKDIR /app
 
-# Install libraries
-RUN apk update && apk add openssl ca-certificates
+# Update libraries
+RUN apk update
 
 # Copy the built binary from the builder stage, binary name check when test build on local
 COPY --from=builder /app/target/release/healthcheck .

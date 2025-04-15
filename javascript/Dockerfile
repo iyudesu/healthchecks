@@ -15,9 +15,6 @@ RUN npm install --frozen-lockfile
 # Copy the rest of the application files
 COPY . .
 
-# # Build
-# RUN npm run build
-
 # Second image, copy all the files and run next
 FROM public.ecr.aws/docker/library/node:23.11.0-alpine3.21 AS runner
 
